@@ -1,23 +1,21 @@
-#with open('vegetables.csv') as f:
-#   vegetables = f.read()
+import csv 
+import json 
 
-#print(vegetables)
-
-import json
-
-with open('superheroes.json', 'r') as f:
-    data = json.load(f)
-
-print(data)
-
-
-for hero in data:
-    print(hero)
-
-import csv
-
-with open('superheroes.csv', 'w') as f:
-    writer = csv.writer(f)
-    writer.writerow(['name', 'age', 'secretIdentity', 'powers', 'squadName', 'homeTown', 'formed', 'secretBase', 'active'])
-    for hero in data:
-        writer.writerow([hero['name'],hero['age'],hero['secretidentity'],hero['powers'],hero['squadName'],hero['homeTown'],hero['formed'],hero['secretBase'],hero['active']])
+def csv_to_json(csvFilePath, jsonFilePath):
+    jsonArray = []
+      
+    # Read csv file
+    with open(csvFilePath, encoding='utf-8') as csvf: 
+        # Load csv file data using csv library's dictionary reader
+        csvReader = csv.DictReader(csvf)
+        for row in csvReader:
+            jsonArray.append(row)
+  
+    # Convert python jsonArray to JSON String and write to file
+    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf: 
+        jsonString = json.dumps(jsonArray, indent=2)
+        jsonf.write(jsonString)
+          
+csvFilePath = r'vegetables.csv'
+jsonFilePath = r'output/vegetables.json'
+csv_to_json(csvFilePath, jsonFilePath)
